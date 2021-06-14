@@ -1,7 +1,14 @@
 <template>
   <h1>Editor</h1>
   <div class="container" :style="gridStyle">
-    <div v-for="index in gridItemsCount" :key="index" class="grid-item" @click="onGridItemClick(index)">{{index}}</div>
+    <div
+      v-for="index in gridItemsCount"
+      :key="index"
+      class="grid-item"
+      @click="onGridItemClick(index)"
+    >
+      {{ index }}
+    </div>
   </div>
   <input v-model="mapName" />
 </template>
@@ -15,8 +22,8 @@ export default defineComponent({
   setup: () => {
     const store = useStore();
     const gridItemSize = ref(20);
-    const height = ref(5);
     const width = ref(4);
+    const height = ref(5);
     const gridItemsCount = computed(() => height.value * width.value);
     const gridStyle = ref({
       width: `${width.value * gridItemSize.value}px`,
@@ -33,13 +40,13 @@ export default defineComponent({
     });
 
     const onGridItemClick = (index: number) => {
-      const x = ((index / width.value)%height.value) + 1;
-      const z = ((index-1) % width.value) + 1
-      console.log(index)
+      const x = ((index / width.value) % height.value) + 1;
+      const z = ((index - 1) % width.value) + 1;
+      console.log(index);
       console.log({
         x,
-        z
-      })
+        z,
+      });
       console.log("grid item clicked");
     };
 
@@ -63,6 +70,7 @@ export default defineComponent({
   margin: auto;
 }
 .grid-item {
+  font-size: 11px;
   background: gray;
   border: 0.5px solid black;
 }
