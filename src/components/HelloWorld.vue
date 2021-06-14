@@ -27,28 +27,40 @@
     <a href="https://v3.vuejs.org/" target="_blank">Vue 3 Docs</a>
   </p>
 
-  <button type="button" @click="count++">count is: {{ count }}</button>
+  <button type="button" @click="onClick">count is: {{ count }}</button>
   <p>
     Edit
     <code>components/HelloWorld.vue</code> to test hot module replacement.
   </p>
+  {{ test }}
 </template>
 
 <script lang="ts">
-import { ref, defineComponent } from 'vue'
+import { defineComponent, computed } from "vue";
+import { useStore } from "../store";
+import { MutationType } from "../store/mutations";
 export default defineComponent({
-  name: 'HelloWorld',
+  name: "HelloWorld",
   props: {
     msg: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   setup: () => {
-    const count = ref(0)
-    return { count }
-  }
-})
+    const store = useStore();
+    const test = computed(() => store.getters.getTest);
+
+    store.commit(MutationType.SetTest, "hello");
+
+    const onClick = () => {
+      store.commit(MutationType.CounterIncrease, 1)
+    }
+
+    const count = computed(() => store.getters.getCounter);
+    return { count, test, onClick };
+  },
+});
 </script>
 
 <style scoped>
