@@ -18,7 +18,7 @@ import { ActionTypes } from "../store/actions";
 import { MutationType } from "../store/mutations";
 
 export default defineComponent({
-  name: "TheToolbar",
+  name: "TheTools",
   setup: () => {
     const store = useStore();
     const mapName = computed({

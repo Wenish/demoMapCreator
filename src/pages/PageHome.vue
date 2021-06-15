@@ -4,6 +4,7 @@
       <h1>Editor</h1>
     </template>
     <template #left>
+      <TheTools></TheTools>
     </template>
     <Editor />
     <template #right>Space for data</template>
@@ -13,7 +14,8 @@
 
 <script lang="ts">
 import { computed, defineComponent } from "vue";
-import Editor from "../components/Editor.vue"; // @ is an alias to /src
+import Editor from "../components/Editor.vue";
+import TheTools from "../components/TheTools.vue"
 import LayoutFull from "../layouts/LayoutFull.vue";
 import { useStore } from "../store";
 import { ActionTypes } from "../store/actions";
@@ -23,7 +25,8 @@ export default defineComponent({
   name: "PageHome",
   components: {
     Editor,
-    LayoutFull
+    LayoutFull,
+    TheTools
   },
   setup: () => {
     const store = useStore();
