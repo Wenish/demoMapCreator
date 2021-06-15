@@ -42,7 +42,6 @@ export const mutations: MutationTree<State> & Mutations = {
         })
     },
     [MutationType.SetMapName](state: State, value: string) {
-        document.title = value
         state.data.map.name = value
     }
 }
