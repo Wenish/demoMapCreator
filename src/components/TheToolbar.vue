@@ -1,30 +1,24 @@
 <template>
-  <LayoutFull>
-    <template #header>
-      <h1>Editor</h1>
-    </template>
-    <template #left>
-    </template>
-    <Editor />
-    <template #right>Space for data</template>
-    <template #footer></template>
-  </LayoutFull>
+  <el-button-group>
+    <el-button
+      type="primary"
+      icon="el-icon-download"
+      @click="saveMapDataToFile"
+    ></el-button>
+    <el-button type="primary" icon="el-icon-upload2"></el-button>
+    <el-button type="primary" icon="el-icon-delete"></el-button>
+  </el-button-group>
+  <el-input placeholder="Name" v-model="mapName"></el-input>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent } from "vue";
-import Editor from "../components/Editor.vue"; // @ is an alias to /src
-import LayoutFull from "../layouts/LayoutFull.vue";
 import { useStore } from "../store";
 import { ActionTypes } from "../store/actions";
 import { MutationType } from "../store/mutations";
 
 export default defineComponent({
-  name: "PageHome",
-  components: {
-    Editor,
-    LayoutFull
-  },
+  name: "TheToolbar",
   setup: () => {
     const store = useStore();
     const mapName = computed({

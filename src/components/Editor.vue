@@ -1,5 +1,4 @@
 <template>
-  <input v-model="mapName" />
   <label>Choose a FloorBlockType:</label>
   <select v-model="floorBlockTypeSelected">
     <option value="">Empty</option>
@@ -92,21 +91,11 @@ export default defineComponent({
       store.commit(MutationType.FLoorBlockAdd, [floorBlock]);
     };
 
-    const mapName = computed({
-      get(): string {
-        return store.getters.getMapName;
-      },
-      set(value: string) {
-        store.commit(MutationType.SetMapName, value);
-      },
-    });
-
     const onMouseEvent = (index: number, event: any) => {
       console.log(event);
       paintToIndex(index);
     };
     return {
-      mapName,
       height,
       length,
       gridItemsCount,

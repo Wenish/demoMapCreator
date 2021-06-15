@@ -1,8 +1,9 @@
 import { MutationTree } from "vuex";
 import { FloorBlock } from "../types";
-import { State } from "./state";
+import { State, state as initialState } from "./state";
 
 export enum MutationType {
+    ResetState = 'RESET_STATE',
     FloorBlockSet = 'FLOOR_BLOCK_SET',
     FLoorBlockAdd = 'FLOOR_BLOCK_ADD',
     FloorBlockRemove = 'FLOOR_BLOCK_REMOVE',
@@ -10,6 +11,7 @@ export enum MutationType {
 }
 
 export type Mutations = {
+    [MutationType.ResetState](state: State): void
     [MutationType.FloorBlockSet](state: State, payload: FloorBlock[]): void
     [MutationType.FLoorBlockAdd](state: State, payload: FloorBlock[]): void
     [MutationType.FloorBlockRemove](state: State, payload: string[]): void
@@ -17,6 +19,9 @@ export type Mutations = {
 }
 
 export const mutations: MutationTree<State> & Mutations = {
+    [MutationType.ResetState](state) {
+        state = initialState
+    },
     [MutationType.FloorBlockSet](state, payload) {
         state.floorBlocks = payload.reduce((result: { [key: string]: FloorBlock }, floorBlock) => {
             const key = `${floorBlock.position.x}${floorBlock.position.y}${floorBlock.position.z}`
