@@ -1,5 +1,4 @@
 <template>
-  <h1>Editor</h1>
   <input v-model="mapName" />
   <label>Choose a FloorBlockType:</label>
   <select v-model="floorBlockTypeSelected">
@@ -146,6 +145,7 @@ export default defineComponent({
   background: #bceaff;
   border: 0.5px solid black;
   overflow: hidden;
+  color: black;
 }
 
 .grid-item.grass {
