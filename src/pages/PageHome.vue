@@ -16,7 +16,6 @@ export default defineComponent({
     Editor,
   },
   setup: () => {
-    document.title = 'Home'
     const store = useStore();
     const mapName = computed({
       get(): string {
