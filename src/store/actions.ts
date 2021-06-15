@@ -20,8 +20,9 @@ export type Actions = {
 
 export const actions: ActionTree<State, State> & Actions = {
     async [ActionTypes.SaveToJson](context) {
-        const data = context.state.data
-        const mapName = context.state.data.map.name
+        const data = context.getters.getMapData
+        console.log(data)
+        const mapName = data.map.name
         const fileName = `${mapName.replaceAll(' ', '_')}.json`;
 
         // Create a blob of the data

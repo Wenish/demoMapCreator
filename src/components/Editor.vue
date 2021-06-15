@@ -45,7 +45,7 @@ export default defineComponent({
     ];
     const floorBlockTypeSelected = ref(FloorBlockTypes.GRASS);
     const gridItemSize = ref(30);
-    const width = ref(20);
+    const width = ref(30);
     const height = ref(20);
     const gridItemsCount = computed(() => height.value * width.value);
     const gridStyle = ref({
@@ -85,8 +85,9 @@ export default defineComponent({
       const floorBlock: FloorBlock = {
         type: floorBlockType,
         position: {
+          x: axis.x,
           y: 0,
-          ...indexToAxis(index),
+          z: axis.z
         },
       };
       store.commit(MutationType.FLoorBlockAdd, [floorBlock]);
@@ -142,7 +143,7 @@ export default defineComponent({
 
 .grid-item {
   font-size: 11px;
-  background: gray;
+  background: #bceaff;
   border: 0.5px solid black;
   overflow: hidden;
 }
