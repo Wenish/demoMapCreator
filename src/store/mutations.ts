@@ -11,7 +11,7 @@ export enum MutationType {
 export type Mutations = {
     [MutationType.FloorBlockSet](state: State, payload: FloorBlock[]): void
     [MutationType.FLoorBlockAdd](state: State, payload: FloorBlock[]): void
-    [MutationType.FloorBlockRemove](state: State, payload: FloorBlock[]): void
+    [MutationType.FloorBlockRemove](state: State, payload: string[]): void
     [MutationType.SetMapName](state: State, value: string): void
 }
 
@@ -36,11 +36,9 @@ export const mutations: MutationTree<State> & Mutations = {
     },
 
     [MutationType.FloorBlockRemove](state, payload) {
-        const keys = payload.map((value) => `${value.position.x}${value.position.y}${value.position.z}`)
-        state.floorBlocks = keys.reduce((result, item) => {
-            const { [item]: removed, ...rest } = result;
-            return rest;
-        }, state.floorBlocks);
+        payload.forEach((value) => {
+            delete state.floorBlocks[value]
+        })
     },
     [MutationType.SetMapName](state: State, value: string) {
         state.data.map.name = value

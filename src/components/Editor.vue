@@ -1,16 +1,30 @@
 <template>
   <h1>Editor</h1>
-  <div class="container" :style="gridStyle">
+  <input v-model="mapName" />
+  <label>Choose a FloorBlockType:</label>
+  <select v-model="floorBlockTypeSelected">
+    <option value="">Empty</option>
+    <option v-for="option in floorBlockTypes" :value="option" :key="option">
+      {{ option }}
+    </option>
+  </select>
+  <div
+    class="container"
+    :style="gridStyle"
+    :class="cursor"
+    @mousedown.left="isLeftMouseButtonPressed = true"
+    @mouseup.left="isLeftMouseButtonPressed = false"
+  >
     <div
       v-for="index in gridItemsCount"
       :key="index"
       :class="['grid-item', getGridItemFloorBlockClass(index)]"
-      @click="onGridItemClick(index)"
+      @click.left="paintToIndex(index)"
+      @mousemove="isLeftMouseButtonPressed && paintToIndex(index)"
     >
       {{ getGridItemFloorBlockClass(index) }}
     </div>
   </div>
-  <input v-model="mapName" />
 </template>
 
 <script lang="ts">
@@ -22,15 +36,62 @@ export default defineComponent({
   name: "Editor",
   setup: () => {
     const store = useStore();
-    const gridItemSize = ref(50);
+    const isLeftMouseButtonPressed = ref(false);
+    const floorBlockTypes = [
+      FloorBlockTypes.GRASS,
+      FloorBlockTypes.DIRT,
+      FloorBlockTypes.SNOW,
+      FloorBlockTypes.BRIDGE,
+    ];
+    const floorBlockTypeSelected = ref(FloorBlockTypes.GRASS);
+    const gridItemSize = ref(30);
     const width = ref(20);
-    const height = ref(30);
+    const height = ref(20);
     const gridItemsCount = computed(() => height.value * width.value);
     const gridStyle = ref({
       width: `${width.value * gridItemSize.value}px`,
       gridTemplateColumns: `repeat(${width.value}, ${gridItemSize.value}px)`,
       gridTemplateRows: `repeat(${height.value}, ${gridItemSize.value}px)`,
     });
+
+    const cursor = computed(() => !!floorBlockTypeSelected.value ? 'paintbrush' : 'eraser')
+
+    const indexToAxis = (index: number): { x: number; z: number } => {
+      const x = Math.ceil(index / width.value);
+      const z = ((index - 1) % width.value) + 1;
+      return {
+        x,
+        z,
+      };
+    };
+
+    const getGridItemFloorBlockClass = (index: number) => {
+      const axis = indexToAxis(index);
+      const key = `${axis.x}0${axis.z}`;
+      return !!store.getters.getFloorBlockType(key)
+        ? store.getters.getFloorBlockType(key).toLowerCase()
+        : "";
+    };
+
+    const paintToIndex = (index: number) => {
+      const floorBlockType: FloorBlockTypes =
+        floorBlockTypeSelected.value as FloorBlockTypes;
+      const axis = indexToAxis(index);
+      const key = `${axis.x}0${axis.z}`;
+      if (!floorBlockType) {
+        store.commit(MutationType.FloorBlockRemove, [key]);
+        return;
+      }
+      const floorBlock: FloorBlock = {
+        type: floorBlockType,
+        position: {
+          y: 0,
+          ...indexToAxis(index),
+        },
+      };
+      store.commit(MutationType.FLoorBlockAdd, [floorBlock]);
+    };
+
     const mapName = computed({
       get(): string {
         return store.getters.getMapName;
@@ -40,40 +101,23 @@ export default defineComponent({
       },
     });
 
-    const indexToAxis = (index: number): { x: number; z: number } => {
-      const x = Math.ceil(index / width.value) 
-      const z = ((index - 1) % width.value) + 1;
-      return {
-        x,
-        z,
-      }
+    const onMouseEvent = (index: number, event: any) => {
+      console.log(event);
+      paintToIndex(index);
     };
-
-    const getGridItemFloorBlockClass = (index: number) => {
-      const axis = indexToAxis(index);
-      const key = `${axis.x}0${axis.z}`
-      return !!store.getters.getFloorBlockType(key) ? store.getters.getFloorBlockType(key).toLowerCase() : ''
-    }
-
-    const onGridItemClick = (index: number) => {
-      const floorBlock: FloorBlock = {
-        type: FloorBlockTypes.DIRT,
-        position: {
-          y: 0,
-          ...indexToAxis(index)
-        }
-      }
-      store.commit(MutationType.FLoorBlockAdd, [floorBlock])
-    };
-
     return {
       mapName,
       height,
       length,
       gridItemsCount,
       gridStyle,
-      onGridItemClick,
-      getGridItemFloorBlockClass
+      paintToIndex,
+      getGridItemFloorBlockClass,
+      floorBlockTypes,
+      floorBlockTypeSelected,
+      onMouseEvent,
+      isLeftMouseButtonPressed,
+      cursor
     };
   },
 });
@@ -85,11 +129,22 @@ export default defineComponent({
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
   margin: auto;
+  user-select: none;
 }
+
+.container.eraser {
+  cursor: url('../assets/cursors/eraser.png'), auto;	
+}
+
+.container.paintbrush {
+  cursor: url('../assets/cursors/paintbrush.png'), auto;	
+}
+
 .grid-item {
   font-size: 11px;
   background: gray;
   border: 0.5px solid black;
+  overflow: hidden;
 }
 
 .grid-item.grass {
