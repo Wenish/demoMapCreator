@@ -41,6 +41,7 @@ export type Team = {
 }
 
 export type State = {
+    floorBlocks: { [key: string]: FloorBlock; }
     data: {
         map: Map
         teams: Team[]
@@ -48,6 +49,8 @@ export type State = {
 }
 
 export const state: State = {
+    floorBlocks: {
+    },
     data: {
         map: {
             name: 'default',

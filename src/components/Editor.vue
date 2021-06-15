@@ -4,10 +4,10 @@
     <div
       v-for="index in gridItemsCount"
       :key="index"
-      class="grid-item"
+      :class="['grid-item', getGridItemFloorBlockClass(index)]"
       @click="onGridItemClick(index)"
     >
-      {{ index }}
+      {{ getGridItemFloorBlockClass(index) }}
     </div>
   </div>
   <input v-model="mapName" />
@@ -17,13 +17,14 @@
 import { computed, defineComponent, ref } from "vue";
 import { useStore } from "../store";
 import { MutationType } from "../store/mutations";
+import { FloorBlock, FloorBlockTypes } from "../store/state";
 export default defineComponent({
   name: "Editor",
   setup: () => {
     const store = useStore();
-    const gridItemSize = ref(20);
-    const width = ref(4);
-    const height = ref(5);
+    const gridItemSize = ref(50);
+    const width = ref(20);
+    const height = ref(30);
     const gridItemsCount = computed(() => height.value * width.value);
     const gridStyle = ref({
       width: `${width.value * gridItemSize.value}px`,
@@ -39,15 +40,30 @@ export default defineComponent({
       },
     });
 
-    const onGridItemClick = (index: number) => {
-      const x = ((index / width.value) % height.value) + 1;
+    const indexToAxis = (index: number): { x: number; z: number } => {
+      const x = Math.ceil(index / width.value) 
       const z = ((index - 1) % width.value) + 1;
-      console.log(index);
-      console.log({
+      return {
         x,
         z,
-      });
-      console.log("grid item clicked");
+      }
+    };
+
+    const getGridItemFloorBlockClass = (index: number) => {
+      const axis = indexToAxis(index);
+      const key = `${axis.x}0${axis.z}`
+      return !!store.getters.getFloorBlockType(key) ? store.getters.getFloorBlockType(key).toLowerCase() : ''
+    }
+
+    const onGridItemClick = (index: number) => {
+      const floorBlock: FloorBlock = {
+        type: FloorBlockTypes.DIRT,
+        position: {
+          y: 0,
+          ...indexToAxis(index)
+        }
+      }
+      store.commit(MutationType.FLoorBlockAdd, [floorBlock])
     };
 
     return {
@@ -57,6 +73,7 @@ export default defineComponent({
       gridItemsCount,
       gridStyle,
       onGridItemClick,
+      getGridItemFloorBlockClass
     };
   },
 });
@@ -73,6 +90,22 @@ export default defineComponent({
   font-size: 11px;
   background: gray;
   border: 0.5px solid black;
+}
+
+.grid-item.grass {
+  background: green;
+}
+
+.grid-item.dirt {
+  background: saddlebrown;
+}
+
+.grid-item.snow {
+  background: mintcream;
+}
+
+.grid-item.bridge {
+  background: burlywood;
 }
 
 .grid-item:hover {
