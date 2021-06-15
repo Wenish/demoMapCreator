@@ -31,7 +31,7 @@
 import { computed, defineComponent, ref } from "vue";
 import { useStore } from "../store";
 import { MutationType } from "../store/mutations";
-import { FloorBlock, FloorBlockTypes } from "../store/state";
+import { FloorBlock, FloorBlockTypes } from "../types";
 export default defineComponent({
   name: "Editor",
   setup: () => {

@@ -1,5 +1,6 @@
 import { MutationTree } from "vuex";
-import { FloorBlock, State } from "./state";
+import { FloorBlock } from "../types";
+import { State } from "./state";
 
 export enum MutationType {
     FloorBlockSet = 'FLOOR_BLOCK_SET',
