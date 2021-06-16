@@ -25,7 +25,7 @@
         @click="resetState"
       ></el-button>
     </div>
-    <div class="center">Grid Map Editor v1.0</div>
+    <div class="center">Grid Map Editor v0.1.0</div>
     <div class="right"></div>
   </div>
 </template>
