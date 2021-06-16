@@ -15,7 +15,7 @@
         ></el-button>
       </el-button-group>
     </div>
-    <div class="center">Grid Map Editor</div>
+    <div class="center">Grid Map Editor v1.0</div>
     <div class="right"></div>
   </div>
 </template>
