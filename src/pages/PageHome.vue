@@ -15,7 +15,7 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
 import Editor from "../components/Editor.vue";
-import TheTools from "../components/TheTools.vue"
+import TheTools from "../components/TheTools.vue";
 import LayoutFull from "../layouts/LayoutFull.vue";
 import { useStore } from "../store";
 import { ActionTypes } from "../store/actions";
@@ -26,7 +26,7 @@ export default defineComponent({
   components: {
     Editor,
     LayoutFull,
-    TheTools
+    TheTools,
   },
   setup: () => {
     const store = useStore();

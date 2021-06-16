@@ -1,14 +1,16 @@
 <template>
-  <el-button-group>
-    <el-button
-      type="primary"
-      icon="el-icon-download"
-      @click="saveMapDataToFile"
-    ></el-button>
-    <el-button type="primary" icon="el-icon-upload2"></el-button>
-    <el-button type="primary" icon="el-icon-delete"></el-button>
-  </el-button-group>
-  <el-input placeholder="Name" v-model="mapName"></el-input>
+  <div class="container">
+    <el-button-group>
+      <el-button
+        type="primary"
+        icon="el-icon-download"
+        @click="saveMapDataToFile"
+      ></el-button>
+      <el-button type="primary" icon="el-icon-upload2"></el-button>
+      <el-button type="primary" icon="el-icon-delete"></el-button>
+    </el-button-group>
+    <el-input placeholder="Name" v-model="mapName"></el-input>
+  </div>
 </template>
 
 <script lang="ts">
@@ -35,3 +37,9 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped>
+.container {
+    padding: 20px;
+}
+</style>
