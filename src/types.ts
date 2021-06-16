@@ -11,7 +11,6 @@ export type Position = {
     z: number
 }
 
-
 export type FloorBlock = {
     type: FloorBlockTypes
     position: Position
@@ -41,7 +40,7 @@ export type Team = {
     color: string
 }
 
-export type MapData = {
+export type FileData = {
     map: Map
     teams: Team[]
 }

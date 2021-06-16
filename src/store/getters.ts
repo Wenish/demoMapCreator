@@ -1,9 +1,9 @@
 import { GetterTree } from "vuex";
-import { FloorBlock, FloorBlockTypes, MapData } from "../types";
+import { FloorBlock, FloorBlockTypes, FileData } from "../types";
 import { State } from "./state";
 
 export type Getters = {
-    getMapData(state: State): MapData
+    getMapData(state: State): FileData
     getFloorBlockType(state: State): (key: string) => FloorBlockTypes,
     getMapName(state: State): string,
 }
