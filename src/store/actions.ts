@@ -3,11 +3,12 @@ import { Mutations, MutationType } from "./mutations";
 import { State } from "./state";
 import { saveAs } from 'file-saver';
 import { Getters } from "./getters";
-import { ToolTypes } from "../types";
+import { FileData, ToolTypes } from "../types";
 
 export enum ActionTypes {
     SaveToJson = 'SAVE_TO_JSON',
-    PaintToIndex = 'PAINT_TO_INDEX'
+    LoadFromJsonFile = 'LOAD_FROM_JSON_FILE',
+    PaintToIndex = 'PAINT_TO_INDEX',
 }
 
 type ActionAugments = Omit<ActionContext<State, State>, 'commit' | 'getters'> & {
@@ -22,6 +23,7 @@ type ActionAugments = Omit<ActionContext<State, State>, 'commit' | 'getters'> & 
 
 export type Actions = {
     [ActionTypes.SaveToJson](context: ActionAugments): void
+    [ActionTypes.LoadFromJsonFile](context: ActionAugments, file: File): void
     [ActionTypes.PaintToIndex](context: ActionAugments, index: number): void
 }
 
@@ -39,6 +41,15 @@ export const actions: ActionTree<State, State> & Actions = {
 
         // Save the file
         saveAs(fileToSave, fileName);
+    },
+    [ActionTypes.LoadFromJsonFile](context, file) {
+        context.commit(MutationType.ResetState, null)
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          const json: FileData = JSON.parse(e.target.result);
+          context.commit(MutationType.LoadFileData, json)
+        }
+        reader.readAsText(file)
     },
     [ActionTypes.PaintToIndex](context: ActionAugments, index: number): void {
         const axis = context.getters.getSelectedAxis

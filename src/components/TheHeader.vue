@@ -1,19 +1,29 @@
 <template>
   <div class="container">
     <div class="left">
-      <el-button-group>
-        <el-button
-          type="primary"
-          icon="el-icon-download"
-          @click="saveMapDataToFile"
-        ></el-button>
-        <el-button type="primary" icon="el-icon-upload2"></el-button>
-        <el-button
-          type="primary"
-          icon="el-icon-delete"
-          @click="resetState"
-        ></el-button>
-      </el-button-group>
+      <el-button
+        type="primary"
+        icon="el-icon-download"
+        @click="saveMapDataToFile"
+      ></el-button>
+      <el-upload
+        action="#"
+        :auto-upload="false"
+        :show-file-list="false"
+        :multiple="false"
+        :accept="'application/JSON'"
+        :on-change="onFileChange"
+      >
+        <template #trigger>
+          <el-button type="primary" icon="el-icon-upload2"></el-button>
+        </template>
+        <div></div>
+      </el-upload>
+      <el-button
+        type="primary"
+        icon="el-icon-delete"
+        @click="resetState"
+      ></el-button>
     </div>
     <div class="center">Grid Map Editor v1.0</div>
     <div class="right"></div>
@@ -33,7 +43,11 @@ export default defineComponent({
     const resetState = () => store.commit(MutationType.ResetState, null);
 
     const saveMapDataToFile = () => store.dispatch(ActionTypes.SaveToJson);
-    return { saveMapDataToFile, resetState };
+
+    const onFileChange = (file: any, fileList: FileList) => {
+      store.dispatch(ActionTypes.LoadFromJsonFile, file.raw)
+    }
+    return { saveMapDataToFile, resetState, onFileChange };
   },
 });
 </script>
@@ -44,5 +58,11 @@ export default defineComponent({
   grid-template-columns: auto 1fr auto;
   grid-template-rows: 60px;
   place-items: center;
+}
+
+.left {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-gap: 5px;
 }
 </style>

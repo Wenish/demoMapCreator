@@ -1,9 +1,10 @@
 import { MutationTree } from "vuex";
-import { FloorBlock, FloorBlockTypes, ToolTypes } from "../types";
+import { FileData, FloorBlock, FloorBlockTypes, ToolTypes } from "../types";
 import { State } from "./state";
 
 export enum MutationType {
     ResetState = 'RESET_STATE',
+    LoadFileData = 'LOAD_MAP_DATA',
     FloorBlockSet = 'FLOOR_BLOCK_SET',
     FLoorBlockAdd = 'FLOOR_BLOCK_ADD',
     FloorBlockRemove = 'FLOOR_BLOCK_REMOVE',
@@ -15,6 +16,7 @@ export enum MutationType {
 
 export type Mutations = {
     [MutationType.ResetState](state: State, payload: null): void
+    [MutationType.LoadFileData](state: State, payload: FileData): void
     [MutationType.FloorBlockSet](state: State, payload: FloorBlock[]): void
     [MutationType.FLoorBlockAdd](state: State, payload: FloorBlock[]): void
     [MutationType.FloorBlockRemove](state: State, payload: string[]): void
@@ -33,6 +35,21 @@ export const mutations: MutationTree<State> & Mutations = {
         state.grid.width = 30
         state.grid.height = 20
     },
+    [MutationType.LoadFileData](state, payload) {
+        state.data.map.name = payload.map.name
+        state.data.map.captureFlags = payload.map.captureFlags
+        state.data.map.capturePoints = payload.map.capturePoints
+        state.data.teams = payload.teams
+        const newFloorBlocks = payload.map.floorBlocks.reduce((result: { [key: string]: FloorBlock }, floorBlock) => {
+            const key = `${floorBlock.position.x}${floorBlock.position.y}${floorBlock.position.z}`
+            result[key] = floorBlock;
+            return result;
+        }, {});
+        state.floorBlocks = {
+            ...state.floorBlocks,
+            ...newFloorBlocks
+        }
+    },
     [MutationType.FloorBlockSet](state, payload) {
         state.floorBlocks = payload.reduce((result: { [key: string]: FloorBlock }, floorBlock) => {
             const key = `${floorBlock.position.x}${floorBlock.position.y}${floorBlock.position.z}`
@@ -45,7 +62,7 @@ export const mutations: MutationTree<State> & Mutations = {
             const key = `${floorBlock.position.x}${floorBlock.position.y}${floorBlock.position.z}`
             result[key] = floorBlock;
             return result;
-          }, {});
+        }, {});
         state.floorBlocks = {
             ...state.floorBlocks,
             ...newFloorBlocks
