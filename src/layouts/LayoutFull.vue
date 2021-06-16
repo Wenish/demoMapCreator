@@ -1,21 +1,16 @@
 <template>
-  <div class="layout">
-    <header>
-      <slot name="header">header</slot>
-    </header>
-    <div class="left-side">
-      <slot name="left"></slot>
-    </div>
-    <main>
-      <slot>default</slot>
-    </main>
-    <div class="right-side">
-      <slot name="right">right</slot>
-    </div>
-    <footer>
-      <slot name="footer">footer</slot>
-    </footer>
-  </div>
+  <el-container>
+    <el-header><slot name="header">header</slot></el-header>
+    <el-container>
+      <el-aside width="280px" class="left-side"
+        ><slot name="left"></slot
+      ></el-aside>
+      <el-container>
+        <el-main class="main"><slot>default</slot></el-main>
+      </el-container>
+    </el-container>
+    <el-footer height="20px"><slot name="footer">© Copyright 2021 Jonas Voland</slot></el-footer>
+  </el-container>
 </template>
 
 <script lang="ts">
@@ -27,35 +22,22 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.layout {
-  display: grid;
-  grid-template-columns: minmax(200px, 250px) 1fr auto;
-  grid-template-rows: auto 1fr auto;
-}
-
 header {
-  grid-column: 1 / 4;
-  border-bottom: 1px solid gray;
-  box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.5);
-  height: 50px;
+  border-bottom: 1px solid #dcdfe6;
 }
 
 .left-side {
   grid-column: 1 / 2;
-  border-right: 1px solid gray;
-  box-shadow: 3px 0px 3px 0px rgba(0, 0, 0, 0.5);
+  border-right: 1px solid #dcdfe6;
 }
 
 .main {
-  grid-column: 2 / 3;
-}
-
-.right-side {
-  grid-column: 3 / 4;
+  min-height: calc(100vh - 80px);
 }
 
 footer {
-  border-top: 1px solid grey;
-  grid-column: 1 / 4;
+  border-top: 1px solid #dcdfe6;
+  font-size: 13px;
+  line-height: 20px;
 }
 </style>

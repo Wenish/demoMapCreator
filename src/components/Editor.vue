@@ -1,7 +1,7 @@
 <template>
   <label>Choose a FloorBlockType:</label>
   <select v-model="floorBlockTypeSelected">
-    <option value="">Empty</option>
+    <option value="">Eraser</option>
     <option v-for="option in floorBlockTypes" :value="option" :key="option">
       {{ option }}
     </option>
