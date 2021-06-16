@@ -6,7 +6,13 @@ export type State = {
         toolOptions: ToolTypes[]
         floorBlockSelected: FloorBlockTypes
         floorBlockOptions: FloorBlockTypes[]
-    },
+    }
+    grid: {
+        width: number
+        height: number
+        cellSize: number
+        selectedIndex: number | null
+    }
     floorBlocks: { [key: string]: FloorBlock; }
     data: {
         map: Map
@@ -20,6 +26,12 @@ export const state: State = {
         toolOptions: [ToolTypes.ERASER, ToolTypes.BRUSH],
         floorBlockSelected: FloorBlockTypes.GRASS,
         floorBlockOptions: [FloorBlockTypes.GRASS, FloorBlockTypes.DIRT, FloorBlockTypes.SNOW, FloorBlockTypes.BRIDGE]
+    },
+    grid: {
+        width: 30,
+        height: 20,
+        cellSize: 30,
+        selectedIndex: null
     },
     floorBlocks: {
     },

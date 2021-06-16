@@ -1,13 +1,19 @@
 import { ActionContext, ActionTree } from "vuex";
-import { Mutations } from "./mutations";
+import { Mutations, MutationType } from "./mutations";
 import { State } from "./state";
 import { saveAs } from 'file-saver';
+import { Getters } from "./getters";
+import { ToolTypes } from "../types";
 
 export enum ActionTypes {
-    SaveToJson = 'SAVE_TO_JSON'
+    SaveToJson = 'SAVE_TO_JSON',
+    PaintToIndex = 'PAINT_TO_INDEX'
 }
 
-type ActionAugments = Omit<ActionContext<State, State>, 'commit'> & {
+type ActionAugments = Omit<ActionContext<State, State>, 'commit' | 'getters'> & {
+    getters: {
+        [K in keyof Getters]: ReturnType<Getters[K]>
+    },
     commit<K extends keyof Mutations>(
         key: K,
         payload: Parameters<Mutations[K]>[1]
@@ -16,6 +22,7 @@ type ActionAugments = Omit<ActionContext<State, State>, 'commit'> & {
 
 export type Actions = {
     [ActionTypes.SaveToJson](context: ActionAugments): void
+    [ActionTypes.PaintToIndex](context: ActionAugments, index: number): void
 }
 
 export const actions: ActionTree<State, State> & Actions = {
@@ -32,5 +39,35 @@ export const actions: ActionTree<State, State> & Actions = {
 
         // Save the file
         saveAs(fileToSave, fileName);
+    },
+    [ActionTypes.PaintToIndex](context: ActionAugments, index: number): void {
+        const axis = context.getters.getSelectedAxis
+        if (!axis) return
+        const key = `${axis.x}0${axis.z}`;
+        const toolSelected = context.state.tools.toolSelected
+        const floorBlockSelected = context.state.tools.floorBlockSelected
+
+        switch (toolSelected) {
+            case ToolTypes.ERASER: {
+                context.commit(MutationType.FloorBlockRemove, [key]);
+                break;
+            }
+            case ToolTypes.BRUSH: {
+                const floorBlock = {
+                    type: floorBlockSelected,
+                    position: {
+                        x: axis.x,
+                        y: 0,
+                        z: axis.z,
+                    },
+                };
+                context.commit(MutationType.FLoorBlockAdd, [floorBlock]);
+                break;
+            }
+            default: {
+                console.log('not handled tool:', toolSelected)
+                break;
+            }
+        }
     }
 }

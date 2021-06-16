@@ -1,11 +1,13 @@
 import { GetterTree } from "vuex";
-import { FloorBlock, FloorBlockTypes, FileData } from "../types";
+import { FloorBlock, FloorBlockTypes, FileData, ToolTypes } from "../types";
 import { State } from "./state";
 
 export type Getters = {
     getMapData(state: State): FileData
     getFloorBlockType(state: State): (key: string) => FloorBlockTypes,
-    getMapName(state: State): string,
+    getSelectedAxis(state: State): { x: number; z: number } | null,
+    getAxisFromIndex(state: State): (index: number) => { x: number; z: number }
+    getPlacedFloorBlocksCount(state: State): number
 }
 
 export const getters: GetterTree<State, State> & Getters = {
@@ -29,7 +31,33 @@ export const getters: GetterTree<State, State> & Getters = {
             return state.floorBlocks[key]?.type
         }
     },
-    getMapName(state) {
-        return state.data.map.name
+    getSelectedAxis(state: State) {
+        const width = state.grid.width
+        const index = state.grid.selectedIndex
+        if (index) {
+            const x = Math.ceil(index / width);
+            const z = ((index - 1) % width) + 1;
+            const axis = {
+                x,
+                z
+            }
+            return axis
+        }
+        return null
+    },
+    getAxisFromIndex(state: State) {
+        return (index: number) => {
+            const width = state.grid.width
+            const x = Math.ceil(index / width);
+            const z = ((index - 1) % width) + 1;
+            const axis = {
+                x,
+                z
+            }
+            return axis
+        }
+    },
+    getPlacedFloorBlocksCount(state: State) {
+        return Object.keys(state.floorBlocks).length
     }
 }
