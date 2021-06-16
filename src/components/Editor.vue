@@ -5,7 +5,7 @@
     :class="[toolSelected]"
     @mousedown.left="isLeftMouseButtonPressed = true"
     @mouseup.left="isLeftMouseButtonPressed = false"
-    @mouseleave="onMouseLeave(index)"
+    @mouseleave="onMouseLeave()"
   >
     <div
       v-for="index in gridItemsCount"
@@ -60,7 +60,7 @@ export default defineComponent({
       store.commit(MutationType.SetSelectedGridIndex, index);
     };
 
-    const onMouseLeave = (index: number) => {
+    const onMouseLeave = () => {
       store.commit(MutationType.SetSelectedGridIndex, null);
     };
     return {

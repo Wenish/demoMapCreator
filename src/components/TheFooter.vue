@@ -3,7 +3,7 @@
     <div class="left">Size: {{ width }} x {{ height }} | Blocks: {{ placedBlocks }}</div>
     <div class="center">© Copyright 2021 Jonas Voland</div>
     <div class="right">
-      <span v-if="showAxis">({{ selectedAxis.x }},{{ selectedAxis.z }})</span>
+      <span v-if="showAxis">({{ selectedAxis?.x }},{{ selectedAxis?.z }})</span>
     </div>
   </div>
 </template>

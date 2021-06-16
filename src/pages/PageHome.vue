@@ -4,7 +4,6 @@
       <TheTools></TheTools>
     </template>
     <Editor />
-    <template #right>Space for data</template>
   </LayoutFull>
 </template>
 

@@ -4,7 +4,7 @@
   "scripts": {
     "start:dev": "vite",
     "start:prod": "vite preview",
-    "build": "vue-tsc --noEmit && vite build"
+    "build": "vue-tsc --noEmit --skipLibCheck && vite build"
   },
   "dependencies": {
     "element-plus": "^1.0.2-beta.48",
