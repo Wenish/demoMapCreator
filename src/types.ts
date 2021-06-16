@@ -1,3 +1,8 @@
+export enum ToolTypes {
+    ERASER = 'Eraser',
+    BRUSH = 'Brush'
+}
+
 export enum FloorBlockTypes {
     GRASS = 'Grass',
     DIRT = 'Dirt',

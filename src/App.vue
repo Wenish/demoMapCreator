@@ -144,15 +144,12 @@ table {
 /* reset end */
 
 html,
-body {
-  background: #2c3e50;
-}
-
+body,
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: white;
+  color: #4b5763;
 }
 </style>

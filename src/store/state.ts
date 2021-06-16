@@ -1,6 +1,12 @@
-import { FloorBlock, Map, Team } from "../types"
+import { FloorBlock, FloorBlockTypes, Map, Team, ToolTypes } from "../types"
 
 export type State = {
+    tools: {
+        toolSelected: ToolTypes
+        toolOptions: ToolTypes[]
+        floorBlockSelected: FloorBlockTypes
+        floorBlockOptions: FloorBlockTypes[]
+    },
     floorBlocks: { [key: string]: FloorBlock; }
     data: {
         map: Map
@@ -9,6 +15,12 @@ export type State = {
 }
 
 export const state: State = {
+    tools: {
+        toolSelected: ToolTypes.BRUSH,
+        toolOptions: [ToolTypes.ERASER, ToolTypes.BRUSH],
+        floorBlockSelected: FloorBlockTypes.GRASS,
+        floorBlockOptions: [FloorBlockTypes.GRASS, FloorBlockTypes.DIRT, FloorBlockTypes.SNOW, FloorBlockTypes.BRIDGE]
+    },
     floorBlocks: {
     },
     data: {
