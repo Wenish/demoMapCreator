@@ -1,6 +1,9 @@
 export enum ToolTypes {
     ERASER = 'Eraser',
-    BLOCKS = 'Blocks'
+    BLOCKS = 'Blocks',
+    SPAWNS = 'Spawns',
+    CAPTURE_POINTS = 'Capture Points',
+    CAPTURE_FLAGS = 'Capture Flags'
 }
 
 export enum FloorBlockTypes {
