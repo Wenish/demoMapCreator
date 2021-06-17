@@ -48,4 +48,9 @@ export type Team = {
 export type FileData = {
     map: Map
     teams: Team[]
+    grid: {
+        width: number
+        height: number
+        cellSize: number
+    }
 }

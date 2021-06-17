@@ -1,7 +1,15 @@
 <template>
   <div class="container">
+    <div class="label">Name</div>
     <el-input placeholder="Name" v-model="mapName"></el-input>
-    <el-select v-model="toolSelected" placeholder="Select Tool">
+    <div class="label">Width</div>
+    <el-input-number class="input" v-model="width" :min="1" :max="100" size="mini"></el-input-number>
+    <div class="label">Height</div>
+    <el-input-number class="input" v-model="height" :min="1" :max="100" size="mini"></el-input-number>
+    <div class="label">Cell Size</div>
+    <el-input-number class="input" v-model="cellSize" :min="5" :max="50" size="mini"></el-input-number>
+    
+    <el-select class="input" v-model="toolSelected" placeholder="Select Tool">
       <el-option
         v-for="item in toolOptions"
         :key="item"
@@ -11,7 +19,7 @@
       </el-option>
     </el-select>
 
-    <el-select v-model="floorBlockSelected" placeholder="Select Floor Block">
+    <el-select class="input" v-model="floorBlockSelected" placeholder="Select Floor Block">
       <el-option
         v-for="item in floorBlockOptions"
         :key="item"
@@ -20,8 +28,6 @@
       >
       </el-option>
     </el-select>
-    <el-input-number v-model="width" :min="1" :max="100"></el-input-number>
-    <el-input-number v-model="height" :min="1" :max="100"></el-input-number>
   </div>
 </template>
 
@@ -73,7 +79,7 @@ export default defineComponent({
         return store.state.grid.width;
       },
       set(value: number) {
-          store.state.grid.width = value
+        store.state.grid.width = value;
       },
     });
 
@@ -82,7 +88,16 @@ export default defineComponent({
         return store.state.grid.height;
       },
       set(value: number) {
-          store.state.grid.height = value
+        store.state.grid.height = value;
+      },
+    });
+
+    const cellSize = computed({
+      get(): number {
+        return store.state.grid.cellSize;
+      },
+      set(value: number) {
+        store.commit(MutationType.SetGridCellSize, value)
       },
     });
 
@@ -93,7 +108,8 @@ export default defineComponent({
       floorBlockSelected,
       floorBlockOptions,
       width,
-      height
+      height,
+      cellSize
     };
   },
 });
@@ -101,6 +117,19 @@ export default defineComponent({
 
 <style scoped>
 .container {
+  text-align: left;
   padding: 20px;
+}
+
+.container > div{
+  margin-top: 10px;
+}
+
+.input {
+  width: 100%;
+}
+
+.label {
+  font-size: 13px;
 }
 </style>

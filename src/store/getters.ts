@@ -3,7 +3,7 @@ import { FloorBlock, FloorBlockTypes, FileData, ToolTypes } from "../types";
 import { State } from "./state";
 
 export type Getters = {
-    getMapData(state: State): FileData
+    getFileData(state: State): FileData
     getFloorBlockType(state: State): (key: string) => FloorBlockTypes,
     getSelectedAxis(state: State): { x: number; z: number } | null,
     getAxisFromIndex(state: State): (index: number) => { x: number; z: number }
@@ -11,7 +11,7 @@ export type Getters = {
 }
 
 export const getters: GetterTree<State, State> & Getters = {
-    getMapData(state) {
+    getFileData(state) {
         const floorBlocks = Object.keys(state.floorBlocks).map((key): FloorBlock => {
             console.log(key)
             return state.floorBlocks[key]
@@ -23,7 +23,12 @@ export const getters: GetterTree<State, State> & Getters = {
                 capturePoints: state.data.map.capturePoints,
                 floorBlocks: floorBlocks
             },
-            teams: state.data.teams
+            teams: state.data.teams,
+            grid: {
+                width: state.grid.width,
+                height: state.grid.height,
+                cellSize: state.grid.cellSize
+            }
         }
     },
     getFloorBlockType(state) {

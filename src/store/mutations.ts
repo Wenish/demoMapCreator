@@ -11,7 +11,8 @@ export enum MutationType {
     SetMapName = 'SET_MAP_NAME',
     SetSelectedTool = 'SET_SELECTED_TOOL',
     SetSelectedFloorBlock = 'SET_SELECTED_FLOOR_BLOCK',
-    SetSelectedGridIndex = 'SET_SELECTED_GRID_INDEX'
+    SetSelectedGridIndex = 'SET_SELECTED_GRID_INDEX',
+    SetGridCellSize = 'SET_GRID_CELL_SIZE'
 }
 
 export type Mutations = {
@@ -24,6 +25,7 @@ export type Mutations = {
     [MutationType.SetSelectedTool](state: State, value: ToolTypes): void
     [MutationType.SetSelectedFloorBlock](state: State, value: FloorBlockTypes): void
     [MutationType.SetSelectedGridIndex](state: State, value: number | null): void
+    [MutationType.SetGridCellSize](state: State, value: number): void
 }
 
 export const mutations: MutationTree<State> & Mutations = {
@@ -34,6 +36,7 @@ export const mutations: MutationTree<State> & Mutations = {
         state.tools.floorBlockSelected = FloorBlockTypes.GRASS
         state.grid.width = 30
         state.grid.height = 20
+        state.grid.cellSize = 30
     },
     [MutationType.LoadFileData](state, payload) {
         state.data.map.name = payload.map.name
@@ -49,6 +52,9 @@ export const mutations: MutationTree<State> & Mutations = {
             ...state.floorBlocks,
             ...newFloorBlocks
         }
+        state.grid.width = payload.grid.width
+        state.grid.height = payload.grid.height
+        state.grid.cellSize = payload.grid.cellSize
     },
     [MutationType.FloorBlockSet](state, payload) {
         state.floorBlocks = payload.reduce((result: { [key: string]: FloorBlock }, floorBlock) => {
@@ -85,5 +91,8 @@ export const mutations: MutationTree<State> & Mutations = {
     },
     [MutationType.SetSelectedGridIndex](state, value) {
         state.grid.selectedIndex = value
+    },
+    [MutationType.SetGridCellSize](state, value) {
+        state.grid.cellSize = value
     }
 }
