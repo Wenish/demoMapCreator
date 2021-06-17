@@ -1,7 +1,7 @@
 export enum ToolTypes {
     ERASER = 'Eraser',
     BLOCKS = 'Blocks',
-    SPAWNS = 'Spawns',
+    SPAWNS_TEAM = 'Spawns Team',
     CAPTURE_POINTS = 'Capture Points',
     CAPTURE_FLAGS = 'Capture Flags'
 }
