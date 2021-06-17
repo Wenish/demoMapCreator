@@ -22,8 +22,8 @@ export type State = {
 
 export const state: State = {
     tools: {
-        toolSelected: ToolTypes.BRUSH,
-        toolOptions: [ToolTypes.ERASER, ToolTypes.BRUSH],
+        toolSelected: ToolTypes.BLOCK_BRUSH,
+        toolOptions: [ToolTypes.ERASER, ToolTypes.BLOCK_BRUSH],
         floorBlockSelected: FloorBlockTypes.GRASS,
         floorBlockOptions: [FloorBlockTypes.GRASS, FloorBlockTypes.DIRT, FloorBlockTypes.SNOW, FloorBlockTypes.BRIDGE]
     },

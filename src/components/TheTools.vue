@@ -19,7 +19,7 @@
       </el-option>
     </el-select>
 
-    <el-select class="input" v-model="floorBlockSelected" placeholder="Select Floor Block">
+    <el-select v-if="isBlockBrushSelected" class="input" v-model="floorBlockSelected" placeholder="Select Floor Block">
       <el-option
         v-for="item in floorBlockOptions"
         :key="item"
@@ -101,6 +101,8 @@ export default defineComponent({
       },
     });
 
+    const isBlockBrushSelected = computed(() => store.state.tools.toolSelected === ToolTypes.BLOCK_BRUSH)
+
     return {
       mapName,
       toolSelected,
@@ -109,7 +111,8 @@ export default defineComponent({
       floorBlockOptions,
       width,
       height,
-      cellSize
+      cellSize,
+      isBlockBrushSelected
     };
   },
 });

@@ -63,7 +63,7 @@ export const actions: ActionTree<State, State> & Actions = {
                 context.commit(MutationType.FloorBlockRemove, [key]);
                 break;
             }
-            case ToolTypes.BRUSH: {
+            case ToolTypes.BLOCK_BRUSH: {
                 const floorBlock = {
                     type: floorBlockSelected,
                     position: {
