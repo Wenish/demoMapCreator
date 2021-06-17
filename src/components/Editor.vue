@@ -90,7 +90,7 @@ export default defineComponent({
   cursor: url("../assets/cursors/eraser.png"), auto;
 }
 
-.container.Brush {
+.container.Blocks {
   cursor: url("../assets/cursors/paintbrush.png"), auto;
 }
 

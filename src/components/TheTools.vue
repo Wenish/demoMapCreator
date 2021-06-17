@@ -9,6 +9,7 @@
     <div class="label">Cell Size</div>
     <el-input-number class="input" v-model="cellSize" :min="5" :max="50" size="mini"></el-input-number>
     
+    <div class="label">Tool</div>
     <el-select class="input" v-model="toolSelected" placeholder="Select Tool">
       <el-option
         v-for="item in toolOptions"
@@ -101,7 +102,7 @@ export default defineComponent({
       },
     });
 
-    const isBlockBrushSelected = computed(() => store.state.tools.toolSelected === ToolTypes.BLOCK_BRUSH)
+    const isBlockBrushSelected = computed(() => store.state.tools.toolSelected === ToolTypes.BLOCKS)
 
     return {
       mapName,

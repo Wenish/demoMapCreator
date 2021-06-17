@@ -1,6 +1,6 @@
 export enum ToolTypes {
     ERASER = 'Eraser',
-    BLOCK_BRUSH = 'Block Brush'
+    BLOCKS = 'Blocks'
 }
 
 export enum FloorBlockTypes {
