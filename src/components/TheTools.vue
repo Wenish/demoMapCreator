@@ -20,6 +20,7 @@
       </el-option>
     </el-select>
 
+    <div v-if="isBlockBrushSelected" class="label">Type</div>
     <el-select v-if="isBlockBrushSelected" class="input" v-model="floorBlockSelected" placeholder="Select Floor Block">
       <el-option
         v-for="item in floorBlockOptions"
