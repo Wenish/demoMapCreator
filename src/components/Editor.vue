@@ -174,7 +174,7 @@ export default defineComponent({
 }
 
 .capture-point {
-  background-image: url(/src/assets/circle.svg);
+  background-image: url(/src/assets/capturePoint.svg);
   background-size: contain;
   pointer-events: none;
 }
