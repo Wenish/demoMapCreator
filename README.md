@@ -1,3 +1,5 @@
+[![Deploy to Firebase Hosting on merge](https://github.com/Wenish/demoMapCreator/actions/workflows/firebase-hosting-merge.yml/badge.svg)](https://github.com/Wenish/demoMapCreator/actions/workflows/firebase-hosting-merge.yml)
+
 # Vue 3 + Typescript + Vite
 
 This template should help get you started developing with Vue 3 and Typescript in Vite.
