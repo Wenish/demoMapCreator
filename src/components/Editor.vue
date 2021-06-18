@@ -16,17 +16,36 @@
       @mousemove="isLeftMouseButtonPressed && paintToIndex(index)"
       @mouseenter="onMouseEnter(index)"
     ></div>
-    <div class="team-spawn"></div>
+
+    <div
+      v-for="(teamSpawn, index) in teamSpawns"
+      :key="index"
+      :style="{
+        gridColumn: teamSpawn.position.z,
+        gridRow: teamSpawn.position.x,
+      }"
+      class="team-spawn"
+    ></div>
+
     <div
       v-for="(capturePoint, index) in capturePoints"
       :key="index"
       :style="{
         gridColumn: capturePoint.position.z,
-        gridRow: capturePoint.position.x
+        gridRow: capturePoint.position.x,
       }"
       class="capture-point"
     ></div>
-    <div class="capture-flag"></div>
+
+    <div
+      v-for="(captureFlag, index) in captureFlags"
+      :key="index"
+      :style="{
+        gridColumn: captureFlag.position.z,
+        gridRow: captureFlag.position.x,
+      }"
+      class="capture-flag"
+    ></div>
   </div>
 </template>
 
@@ -83,6 +102,8 @@ export default defineComponent({
     };
 
     const capturePoints = computed(() => store.getters.getCapturePoints);
+    const captureFlags = computed(() => store.getters.getCaptureFlags);
+    const teamSpawns = computed(() => store.getters.getTeamSpawns);
     return {
       gridItemsCount,
       gridStyle,
@@ -94,6 +115,8 @@ export default defineComponent({
       onMouseLeave,
       getGridItemStyles,
       capturePoints,
+      captureFlags,
+      teamSpawns,
     };
   },
 });

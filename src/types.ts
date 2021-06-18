@@ -34,21 +34,21 @@ export type CaptureFlag = {
     teamId: string
 }
 
+export type TeamSpawn  = {
+    position: Position
+    color: string
+}
+
 export type Map = {
     name: string
     floorBlocks: FloorBlock[]
     capturePoints:  { [key: string]: CapturePoint; }
     captureFlags: { [key: string]: CaptureFlag; }
-}
-
-export type Team = {
-    id: string
-    color: string
+    teamSpawns: { [key: string]: TeamSpawn}
 }
 
 export type FileData = {
     map: Map
-    teams: Team[]
     grid: {
         width: number
         height: number

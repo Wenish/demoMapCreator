@@ -1,5 +1,5 @@
 import { MutationTree } from "vuex";
-import { CapturePoint, FileData, FloorBlock, FloorBlockTypes, ToolTypes } from "../types";
+import { CaptureFlag, CapturePoint, FileData, FloorBlock, FloorBlockTypes, TeamSpawn, ToolTypes } from "../types";
 import { State } from "./state";
 
 export enum MutationType {
@@ -15,7 +15,13 @@ export enum MutationType {
     SetGridCellSize = 'SET_GRID_CELL_SIZE',
     CapturePointsSet = 'CAPTURE_POINTS_SET',
     CapturePointsAdd = 'CAPTURE_POINTS_ADD',
-    CapturePointsRemove = 'CAPTURE_POINTS_REMOVE'
+    CapturePointsRemove = 'CAPTURE_POINTS_REMOVE',
+    CaptureFlagsSet = 'CAPTURE_FLAGS_SET',
+    CaptureFlagsAdd = 'CAPTURE_FLAGS_ADD',
+    CaptureFlagsRemove = 'CAPTURE_FLAGS_REMOVE',
+    TeamSpawnsSet = 'TEAM_SPAWNS_SET',
+    TeamSpawnsAdd = 'TEAM_SPAWNS_ADD',
+    TeamSpawnsRemove = 'TEAM_SPAWNS_REMOVE'
 }
 
 export type Mutations = {
@@ -32,6 +38,12 @@ export type Mutations = {
     [MutationType.CapturePointsSet](state: State, payload: CapturePoint[]): void
     [MutationType.CapturePointsAdd](state: State, payload: CapturePoint[]): void
     [MutationType.CapturePointsRemove](state: State, payload: string[]): void
+    [MutationType.CaptureFlagsSet](state: State, payload: CaptureFlag[]): void
+    [MutationType.CaptureFlagsAdd](state: State, payload: CaptureFlag[]): void
+    [MutationType.CaptureFlagsRemove](state: State, payload: string[]): void
+    [MutationType.TeamSpawnsSet](state: State, payload: TeamSpawn[]): void
+    [MutationType.TeamSpawnsAdd](state: State, payload: TeamSpawn[]): void
+    [MutationType.TeamSpawnsRemove](state: State, payload: string[]): void
 }
 
 export const mutations: MutationTree<State> & Mutations = {
@@ -48,7 +60,7 @@ export const mutations: MutationTree<State> & Mutations = {
         state.data.map.name = payload.map.name
         state.data.map.captureFlags = payload.map.captureFlags
         state.data.map.capturePoints = payload.map.capturePoints
-        state.data.teams = payload.teams
+        state.data.map.teamSpawns = payload.map.teamSpawns
         const newFloorBlocks = payload.map.floorBlocks.reduce((result: { [key: string]: FloorBlock }, floorBlock) => {
             const key = `${floorBlock.position.x}${floorBlock.position.y}${floorBlock.position.z}`
             result[key] = floorBlock;
@@ -122,6 +134,52 @@ export const mutations: MutationTree<State> & Mutations = {
     [MutationType.CapturePointsRemove](state, payload) {
         payload.forEach((value) => {
             delete state.data.map.capturePoints[value]
+        })
+    },
+    [MutationType.CaptureFlagsSet](state: State, payload: CaptureFlag[]) {
+        state.data.map.captureFlags = payload.reduce((result: { [key: string]: CaptureFlag }, captureFlag) => {
+            const key = `${captureFlag.position.x}${captureFlag.position.y}${captureFlag.position.z}`
+            result[key] = captureFlag;
+            return result;
+        }, {});
+    },
+    [MutationType.CaptureFlagsAdd](state: State, payload: CaptureFlag[]){
+        const newCaptureFlags = payload.reduce((result: { [key: string]: CaptureFlag }, captureFlag) => {
+            const key = `${captureFlag.position.x}${captureFlag.position.y}${captureFlag.position.z}`
+            result[key] = captureFlag;
+            return result;
+        }, {});
+        state.data.map.captureFlags = {
+            ...state.data.map.captureFlags,
+            ...newCaptureFlags
+        }
+    },
+    [MutationType.CaptureFlagsRemove](state: State, payload: string[]){
+        payload.forEach((value) => {
+            delete state.data.map.captureFlags[value]
+        })
+    },
+    [MutationType.TeamSpawnsSet](state: State, payload: TeamSpawn[]) {
+        state.data.map.teamSpawns = payload.reduce((result: { [key: string]: TeamSpawn }, teamSpawn) => {
+            const key = `${teamSpawn.position.x}${teamSpawn.position.y}${teamSpawn.position.z}`
+            result[key] = teamSpawn;
+            return result;
+        }, {});
+    },
+    [MutationType.TeamSpawnsAdd](state: State, payload: TeamSpawn[]){
+        const newTeamSpawns = payload.reduce((result: { [key: string]: TeamSpawn }, teamSpawn) => {
+            const key = `${teamSpawn.position.x}${teamSpawn.position.y}${teamSpawn.position.z}`
+            result[key] = teamSpawn;
+            return result;
+        }, {});
+        state.data.map.teamSpawns = {
+            ...state.data.map.teamSpawns,
+            ...newTeamSpawns
+        }
+    },
+    [MutationType.TeamSpawnsRemove](state: State, payload: string[]){
+        payload.forEach((value) => {
+            delete state.data.map.teamSpawns[value]
         })
     }
 }

@@ -3,7 +3,7 @@ import { Mutations, MutationType } from "./mutations";
 import { state, State } from "./state";
 import { saveAs } from 'file-saver';
 import { Getters } from "./getters";
-import { CapturePoint, FileData, ToolTypes } from "../types";
+import { CaptureFlag, CapturePoint, FileData, TeamSpawn, ToolTypes } from "../types";
 
 export enum ActionTypes {
     SaveToJson = 'SAVE_TO_JSON',
@@ -62,6 +62,8 @@ export const actions: ActionTree<State, State> & Actions = {
             case ToolTypes.ERASER: {
                 context.commit(MutationType.FloorBlockRemove, [key]);
                 context.commit(MutationType.CapturePointsRemove, [key])
+                context.commit(MutationType.CaptureFlagsRemove, [key])
+                context.commit(MutationType.TeamSpawnsRemove, [key])
                 break;
             }
             case ToolTypes.BLOCKS: {
@@ -77,11 +79,18 @@ export const actions: ActionTree<State, State> & Actions = {
                 break;
             }
             case ToolTypes.TEAM_SPAWNS: {
-                console.log('Tool', ToolTypes.TEAM_SPAWNS)
+                const teamSpawn: TeamSpawn = {
+                    position: {
+                        x: axis.x,
+                        y: 0,
+                        z: axis.z,
+                    },
+                    color: ''
+                }
+                context.commit(MutationType.TeamSpawnsAdd, [teamSpawn])
                 break;
             }
             case ToolTypes.CAPTURE_POINTS: {
-                console.log('Tool', ToolTypes.CAPTURE_POINTS)
                 const capturePoint: CapturePoint = {
                     position: {
                         x: axis.x,
@@ -94,7 +103,15 @@ export const actions: ActionTree<State, State> & Actions = {
                 break;
             }
             case ToolTypes.CAPTURE_FLAGS: {
-                console.log('Tool', ToolTypes.CAPTURE_FLAGS)
+                const captureFlag: CaptureFlag = {
+                    position: {
+                        x: axis.x,
+                        y: 0,
+                        z: axis.z,
+                    },
+                    teamId: ''
+                }
+                context.commit(MutationType.CaptureFlagsAdd, [captureFlag])
                 break;
             }
             default: {
