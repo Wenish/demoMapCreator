@@ -18,13 +18,13 @@
     ></div>
 
     <div
-      v-for="(teamSpawn, index) in teamSpawns"
+      v-for="(spawn, index) in spawns"
       :key="index"
       :style="{
-        gridColumn: teamSpawn.position.z,
-        gridRow: teamSpawn.position.x,
+        gridColumn: spawn.position.z,
+        gridRow: spawn.position.x,
       }"
-      class="team-spawn"
+      class="spawn"
     ></div>
 
     <div
@@ -103,7 +103,7 @@ export default defineComponent({
 
     const capturePoints = computed(() => store.getters.getCapturePoints);
     const captureFlags = computed(() => store.getters.getCaptureFlags);
-    const teamSpawns = computed(() => store.getters.getTeamSpawns);
+    const spawns = computed(() => store.getters.getSpawns);
     return {
       gridItemsCount,
       gridStyle,
@@ -116,7 +116,7 @@ export default defineComponent({
       getGridItemStyles,
       capturePoints,
       captureFlags,
-      teamSpawns,
+      spawns,
     };
   },
 });
@@ -167,7 +167,7 @@ export default defineComponent({
   opacity: 0.7;
 }
 
-.team-spawn {
+.spawn {
   background-image: url(/src/assets/spawn.svg);
   background-size: contain;
   pointer-events: none;

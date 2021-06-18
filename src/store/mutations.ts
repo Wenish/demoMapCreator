@@ -1,5 +1,5 @@
 import { MutationTree } from "vuex";
-import { CaptureFlag, CapturePoint, FileData, FloorBlock, FloorBlockTypes, TeamSpawn, ToolTypes } from "../types";
+import { CaptureFlag, CapturePoint, FileData, FloorBlock, FloorBlockTypes, Spawn, ToolTypes } from "../types";
 import { State } from "./state";
 
 export enum MutationType {
@@ -19,9 +19,9 @@ export enum MutationType {
     CaptureFlagsSet = 'CAPTURE_FLAGS_SET',
     CaptureFlagsAdd = 'CAPTURE_FLAGS_ADD',
     CaptureFlagsRemove = 'CAPTURE_FLAGS_REMOVE',
-    TeamSpawnsSet = 'TEAM_SPAWNS_SET',
-    TeamSpawnsAdd = 'TEAM_SPAWNS_ADD',
-    TeamSpawnsRemove = 'TEAM_SPAWNS_REMOVE'
+    SpawnsSet = 'SPAWNS_SET',
+    SpawnsAdd = 'SPAWNS_ADD',
+    SpawnsRemove = 'SPAWNS_REMOVE'
 }
 
 export type Mutations = {
@@ -41,9 +41,9 @@ export type Mutations = {
     [MutationType.CaptureFlagsSet](state: State, payload: CaptureFlag[]): void
     [MutationType.CaptureFlagsAdd](state: State, payload: CaptureFlag[]): void
     [MutationType.CaptureFlagsRemove](state: State, payload: string[]): void
-    [MutationType.TeamSpawnsSet](state: State, payload: TeamSpawn[]): void
-    [MutationType.TeamSpawnsAdd](state: State, payload: TeamSpawn[]): void
-    [MutationType.TeamSpawnsRemove](state: State, payload: string[]): void
+    [MutationType.SpawnsSet](state: State, payload: Spawn[]): void
+    [MutationType.SpawnsAdd](state: State, payload: Spawn[]): void
+    [MutationType.SpawnsRemove](state: State, payload: string[]): void
 }
 
 export const mutations: MutationTree<State> & Mutations = {
@@ -60,7 +60,7 @@ export const mutations: MutationTree<State> & Mutations = {
         state.data.map.name = payload.map.name
         state.data.map.captureFlags = payload.map.captureFlags
         state.data.map.capturePoints = payload.map.capturePoints
-        state.data.map.teamSpawns = payload.map.teamSpawns
+        state.data.map.spawns = payload.map.spawns
         const newFloorBlocks = payload.map.floorBlocks.reduce((result: { [key: string]: FloorBlock }, floorBlock) => {
             const key = `${floorBlock.position.x}${floorBlock.position.y}${floorBlock.position.z}`
             result[key] = floorBlock;
@@ -159,27 +159,27 @@ export const mutations: MutationTree<State> & Mutations = {
             delete state.data.map.captureFlags[value]
         })
     },
-    [MutationType.TeamSpawnsSet](state: State, payload: TeamSpawn[]) {
-        state.data.map.teamSpawns = payload.reduce((result: { [key: string]: TeamSpawn }, teamSpawn) => {
-            const key = `${teamSpawn.position.x}${teamSpawn.position.y}${teamSpawn.position.z}`
-            result[key] = teamSpawn;
+    [MutationType.SpawnsSet](state: State, payload) {
+        state.data.map.spawns = payload.reduce((result: { [key: string]: Spawn }, item) => {
+            const key = `${item.position.x}${item.position.y}${item.position.z}`
+            result[key] = item;
             return result;
         }, {});
     },
-    [MutationType.TeamSpawnsAdd](state: State, payload: TeamSpawn[]){
-        const newTeamSpawns = payload.reduce((result: { [key: string]: TeamSpawn }, teamSpawn) => {
-            const key = `${teamSpawn.position.x}${teamSpawn.position.y}${teamSpawn.position.z}`
-            result[key] = teamSpawn;
+    [MutationType.SpawnsAdd](state: State, payload){
+        const newSpawns = payload.reduce((result: { [key: string]: Spawn }, item) => {
+            const key = `${item.position.x}${item.position.y}${item.position.z}`
+            result[key] = item;
             return result;
         }, {});
-        state.data.map.teamSpawns = {
-            ...state.data.map.teamSpawns,
-            ...newTeamSpawns
+        state.data.map.spawns = {
+            ...state.data.map.spawns,
+            ...newSpawns
         }
     },
-    [MutationType.TeamSpawnsRemove](state: State, payload: string[]){
+    [MutationType.SpawnsRemove](state: State, payload: string[]){
         payload.forEach((value) => {
-            delete state.data.map.teamSpawns[value]
+            delete state.data.map.spawns[value]
         })
     }
 }

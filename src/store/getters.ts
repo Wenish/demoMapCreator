@@ -1,5 +1,5 @@
 import { GetterTree } from "vuex";
-import { FloorBlock, FloorBlockTypes, FileData, CapturePoint, CaptureFlag, TeamSpawn } from "../types";
+import { FloorBlock, FloorBlockTypes, FileData, CapturePoint, CaptureFlag, Spawn } from "../types";
 import { State } from "./state";
 
 export type Getters = {
@@ -10,7 +10,7 @@ export type Getters = {
     getPlacedFloorBlocksCount(state: State): number
     getCapturePoints(state: State):  { [key: string]: CapturePoint; }
     getCaptureFlags(state: State):  { [key: string]: CaptureFlag; }
-    getTeamSpawns(state: State):  { [key: string]: TeamSpawn; }
+    getSpawns(state: State):  { [key: string]: Spawn; }
 }
 
 export const getters: GetterTree<State, State> & Getters = {
@@ -24,10 +24,9 @@ export const getters: GetterTree<State, State> & Getters = {
                 name: state.data.map.name,
                 captureFlags: state.data.map.captureFlags,
                 capturePoints: state.data.map.capturePoints,
-                teamSpawns: state.data.map.teamSpawns,
+                spawns: state.data.map.spawns,
                 floorBlocks: floorBlocks
             },
-            teams: state.data.teams,
             grid: {
                 width: state.grid.width,
                 height: state.grid.height,
@@ -75,7 +74,7 @@ export const getters: GetterTree<State, State> & Getters = {
     getCaptureFlags(state: State) {
         return state.data.map.captureFlags
     },
-    getTeamSpawns(state) {
-        return state.data.map.teamSpawns
+    getSpawns(state) {
+        return state.data.map.spawns
     }
 }

@@ -3,7 +3,7 @@ import { Mutations, MutationType } from "./mutations";
 import { state, State } from "./state";
 import { saveAs } from 'file-saver';
 import { Getters } from "./getters";
-import { CaptureFlag, CapturePoint, FileData, TeamSpawn, ToolTypes } from "../types";
+import { CaptureFlag, CapturePoint, FileData, Spawn, ToolTypes } from "../types";
 
 export enum ActionTypes {
     SaveToJson = 'SAVE_TO_JSON',
@@ -63,7 +63,7 @@ export const actions: ActionTree<State, State> & Actions = {
                 context.commit(MutationType.FloorBlockRemove, [key]);
                 context.commit(MutationType.CapturePointsRemove, [key])
                 context.commit(MutationType.CaptureFlagsRemove, [key])
-                context.commit(MutationType.TeamSpawnsRemove, [key])
+                context.commit(MutationType.SpawnsRemove, [key])
                 break;
             }
             case ToolTypes.BLOCKS: {
@@ -78,16 +78,15 @@ export const actions: ActionTree<State, State> & Actions = {
                 context.commit(MutationType.FLoorBlockAdd, [floorBlock]);
                 break;
             }
-            case ToolTypes.TEAM_SPAWNS: {
-                const teamSpawn: TeamSpawn = {
+            case ToolTypes.SPAWNS: {
+                const spawn: Spawn = {
                     position: {
                         x: axis.x,
                         y: 0,
                         z: axis.z,
-                    },
-                    color: ''
+                    }
                 }
-                context.commit(MutationType.TeamSpawnsAdd, [teamSpawn])
+                context.commit(MutationType.SpawnsAdd, [spawn])
                 break;
             }
             case ToolTypes.CAPTURE_POINTS: {

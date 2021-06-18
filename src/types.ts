@@ -1,7 +1,7 @@
 export enum ToolTypes {
     ERASER = 'Eraser',
     BLOCKS = 'Blocks',
-    TEAM_SPAWNS = ' Team Spawns',
+    SPAWNS = ' Spawns',
     CAPTURE_POINTS = 'Capture Points',
     CAPTURE_FLAGS = 'Capture Flags'
 }
@@ -34,9 +34,8 @@ export type CaptureFlag = {
     teamId: string
 }
 
-export type TeamSpawn  = {
+export type Spawn  = {
     position: Position
-    color: string
 }
 
 export type Map = {
@@ -44,7 +43,7 @@ export type Map = {
     floorBlocks: FloorBlock[]
     capturePoints:  { [key: string]: CapturePoint; }
     captureFlags: { [key: string]: CaptureFlag; }
-    teamSpawns: { [key: string]: TeamSpawn}
+    spawns: { [key: string]: Spawn}
 }
 
 export type FileData = {
