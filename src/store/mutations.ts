@@ -1,5 +1,5 @@
 import { MutationTree } from "vuex";
-import { FileData, FloorBlock, FloorBlockTypes, ToolTypes } from "../types";
+import { CapturePoint, FileData, FloorBlock, FloorBlockTypes, ToolTypes } from "../types";
 import { State } from "./state";
 
 export enum MutationType {
@@ -12,7 +12,10 @@ export enum MutationType {
     SetSelectedTool = 'SET_SELECTED_TOOL',
     SetSelectedFloorBlock = 'SET_SELECTED_FLOOR_BLOCK',
     SetSelectedGridIndex = 'SET_SELECTED_GRID_INDEX',
-    SetGridCellSize = 'SET_GRID_CELL_SIZE'
+    SetGridCellSize = 'SET_GRID_CELL_SIZE',
+    CapturePointsSet = 'CAPTURE_POINTS_SET',
+    CapturePointsAdd = 'CAPTURE_POINTS_ADD',
+    CapturePointsRemove = 'CAPTURE_POINTS_REMOVE'
 }
 
 export type Mutations = {
@@ -26,6 +29,9 @@ export type Mutations = {
     [MutationType.SetSelectedFloorBlock](state: State, value: FloorBlockTypes): void
     [MutationType.SetSelectedGridIndex](state: State, value: number | null): void
     [MutationType.SetGridCellSize](state: State, value: number): void
+    [MutationType.CapturePointsSet](state: State, payload: CapturePoint[]): void
+    [MutationType.CapturePointsAdd](state: State, payload: CapturePoint[]): void
+    [MutationType.CapturePointsRemove](state: State, payload: string[]): void
 }
 
 export const mutations: MutationTree<State> & Mutations = {
@@ -94,5 +100,28 @@ export const mutations: MutationTree<State> & Mutations = {
     },
     [MutationType.SetGridCellSize](state, value) {
         state.grid.cellSize = value
+    },
+    [MutationType.CapturePointsSet](state, payload) {
+        state.data.map.capturePoints = payload.reduce((result: { [key: string]: CapturePoint }, capturePoint) => {
+            const key = `${capturePoint.position.x}${capturePoint.position.y}${capturePoint.position.z}`
+            result[key] = capturePoint;
+            return result;
+        }, {});
+    },
+    [MutationType.CapturePointsAdd](state, payload) {
+        const newCapturePoints = payload.reduce((result: { [key: string]: CapturePoint }, capturePoint) => {
+            const key = `${capturePoint.position.x}${capturePoint.position.y}${capturePoint.position.z}`
+            result[key] = capturePoint;
+            return result;
+        }, {});
+        state.data.map.capturePoints = {
+            ...state.data.map.capturePoints,
+            ...newCapturePoints
+        }
+    },
+    [MutationType.CapturePointsRemove](state, payload) {
+        payload.forEach((value) => {
+            delete state.data.map.capturePoints[value]
+        })
     }
 }

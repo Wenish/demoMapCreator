@@ -10,13 +10,23 @@
     <div
       v-for="index in gridItemsCount"
       :key="index"
-      :class="['grid-item', getGridItemFloorBlockClass(index)]"
+      :class="['grid-item', getGridItemClasses(index)]"
+      :style="getGridItemStyles(index)"
       @click.left="paintToIndex(index)"
       @mousemove="isLeftMouseButtonPressed && paintToIndex(index)"
       @mouseenter="onMouseEnter(index)"
-    >
-      {{ getGridItemFloorBlockClass(index) }}
-    </div>
+    ></div>
+    <div class="team-spawn"></div>
+    <div
+      v-for="(capturePoint, index) in capturePoints"
+      :key="index"
+      :style="{
+        gridColumn: capturePoint.position.z,
+        gridRow: capturePoint.position.x
+      }"
+      class="capture-point"
+    ></div>
+    <div class="capture-flag"></div>
   </div>
 </template>
 
@@ -44,12 +54,20 @@ export default defineComponent({
 
     const toolSelected = computed(() => store.state.tools.toolSelected);
 
-    const getGridItemFloorBlockClass = (index: number) => {
+    const getGridItemClasses = (index: number) => {
       const axis = store.getters.getAxisFromIndex(index);
       const key = `${axis.x}0${axis.z}`;
       return !!store.getters.getFloorBlockType(key)
         ? store.getters.getFloorBlockType(key).toLowerCase()
         : "";
+    };
+
+    const getGridItemStyles = (index: number) => {
+      const axis = store.getters.getAxisFromIndex(index);
+      return {
+        gridColumn: axis.z,
+        gridRow: axis.x,
+      };
     };
 
     const paintToIndex = (index: number) => {
@@ -63,15 +81,19 @@ export default defineComponent({
     const onMouseLeave = () => {
       store.commit(MutationType.SetSelectedGridIndex, null);
     };
+
+    const capturePoints = computed(() => store.getters.getCapturePoints);
     return {
       gridItemsCount,
       gridStyle,
       paintToIndex,
-      getGridItemFloorBlockClass,
+      getGridItemClasses,
       isLeftMouseButtonPressed,
       toolSelected,
       onMouseEnter,
       onMouseLeave,
+      getGridItemStyles,
+      capturePoints,
     };
   },
 });
@@ -120,5 +142,23 @@ export default defineComponent({
 
 .grid-item:hover {
   opacity: 0.7;
+}
+
+.team-spawn {
+  background-image: url(/src/assets/spawn.svg);
+  background-size: contain;
+  pointer-events: none;
+}
+
+.capture-point {
+  background-image: url(/src/assets/circle.svg);
+  background-size: contain;
+  pointer-events: none;
+}
+
+.capture-flag {
+  background-image: url(/src/assets/flag.svg);
+  background-size: contain;
+  pointer-events: none;
 }
 </style>

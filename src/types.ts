@@ -25,13 +25,11 @@ export type FloorBlock = {
 }
 
 export type CapturePoint = {
-    id: string
     position: Position
     radius: number
 }
 
 export type CaptureFlag = {
-    id: string
     position: Position
     teamId: string
 }
@@ -39,8 +37,8 @@ export type CaptureFlag = {
 export type Map = {
     name: string
     floorBlocks: FloorBlock[]
-    capturePoints: CapturePoint[]
-    captureFlags: CaptureFlag[]
+    capturePoints:  { [key: string]: CapturePoint; }
+    captureFlags: { [key: string]: CaptureFlag; }
 }
 
 export type Team = {

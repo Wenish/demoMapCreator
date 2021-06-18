@@ -39,8 +39,8 @@ export const state: State = {
         map: {
             name: 'default',
             floorBlocks: [],
-            capturePoints: [],
-            captureFlags: []
+            capturePoints: {},
+            captureFlags: {}
         },
         teams: [
             {

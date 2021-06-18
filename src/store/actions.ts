@@ -1,9 +1,9 @@
 import { ActionContext, ActionTree } from "vuex";
 import { Mutations, MutationType } from "./mutations";
-import { State } from "./state";
+import { state, State } from "./state";
 import { saveAs } from 'file-saver';
 import { Getters } from "./getters";
-import { FileData, ToolTypes } from "../types";
+import { CapturePoint, FileData, ToolTypes } from "../types";
 
 export enum ActionTypes {
     SaveToJson = 'SAVE_TO_JSON',
@@ -46,8 +46,8 @@ export const actions: ActionTree<State, State> & Actions = {
         context.commit(MutationType.ResetState, null)
         const reader = new FileReader();
         reader.onload = (e: any) => {
-          const json: FileData = JSON.parse(e.target.result);
-          context.commit(MutationType.LoadFileData, json)
+            const json: FileData = JSON.parse(e.target.result);
+            context.commit(MutationType.LoadFileData, json)
         }
         reader.readAsText(file)
     },
@@ -61,6 +61,7 @@ export const actions: ActionTree<State, State> & Actions = {
         switch (toolSelected) {
             case ToolTypes.ERASER: {
                 context.commit(MutationType.FloorBlockRemove, [key]);
+                context.commit(MutationType.CapturePointsRemove, [key])
                 break;
             }
             case ToolTypes.BLOCKS: {
@@ -73,6 +74,27 @@ export const actions: ActionTree<State, State> & Actions = {
                     },
                 };
                 context.commit(MutationType.FLoorBlockAdd, [floorBlock]);
+                break;
+            }
+            case ToolTypes.TEAM_SPAWNS: {
+                console.log('Tool', ToolTypes.TEAM_SPAWNS)
+                break;
+            }
+            case ToolTypes.CAPTURE_POINTS: {
+                console.log('Tool', ToolTypes.CAPTURE_POINTS)
+                const capturePoint: CapturePoint = {
+                    position: {
+                        x: axis.x,
+                        y: 0,
+                        z: axis.z,
+                    },
+                    radius: 3
+                }
+                context.commit(MutationType.CapturePointsAdd, [capturePoint])
+                break;
+            }
+            case ToolTypes.CAPTURE_FLAGS: {
+                console.log('Tool', ToolTypes.CAPTURE_FLAGS)
                 break;
             }
             default: {

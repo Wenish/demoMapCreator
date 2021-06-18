@@ -1,5 +1,5 @@
 import { GetterTree } from "vuex";
-import { FloorBlock, FloorBlockTypes, FileData, ToolTypes } from "../types";
+import { FloorBlock, FloorBlockTypes, FileData, CapturePoint } from "../types";
 import { State } from "./state";
 
 export type Getters = {
@@ -8,6 +8,7 @@ export type Getters = {
     getSelectedAxis(state: State): { x: number; z: number } | null,
     getAxisFromIndex(state: State): (index: number) => { x: number; z: number }
     getPlacedFloorBlocksCount(state: State): number
+    getCapturePoints(state: State):  { [key: string]: CapturePoint; }
 }
 
 export const getters: GetterTree<State, State> & Getters = {
@@ -64,5 +65,8 @@ export const getters: GetterTree<State, State> & Getters = {
     },
     getPlacedFloorBlocksCount(state: State) {
         return Object.keys(state.floorBlocks).length
+    },
+    getCapturePoints(state: State) {
+        return state.data.map.capturePoints
     }
 }
