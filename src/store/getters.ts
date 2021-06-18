@@ -15,17 +15,13 @@ export type Getters = {
 
 export const getters: GetterTree<State, State> & Getters = {
     getFileData(state) {
-        const floorBlocks = Object.keys(state.floorBlocks).map((key): FloorBlock => {
-            console.log(key)
-            return state.floorBlocks[key]
-        })
         return {
             map: {
                 name: state.data.map.name,
                 captureFlags: state.data.map.captureFlags,
                 capturePoints: state.data.map.capturePoints,
                 spawns: state.data.map.spawns,
-                floorBlocks: floorBlocks
+                floorBlocks: state.data.map.floorBlocks
             },
             grid: {
                 width: state.grid.width,
@@ -36,7 +32,7 @@ export const getters: GetterTree<State, State> & Getters = {
     },
     getFloorBlockType(state) {
         return (key: string) => {
-            return state.floorBlocks[key]?.type
+            return state.data.map.floorBlocks[key]?.type
         }
     },
     getSelectedAxis(state: State) {
@@ -66,7 +62,7 @@ export const getters: GetterTree<State, State> & Getters = {
         }
     },
     getPlacedFloorBlocksCount(state: State) {
-        return Object.keys(state.floorBlocks).length
+        return Object.keys(state.data.map.floorBlocks).length
     },
     getCapturePoints(state: State) {
         return state.data.map.capturePoints

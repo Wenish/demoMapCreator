@@ -13,7 +13,6 @@ export type State = {
         cellSize: number
         selectedIndex: number | null
     }
-    floorBlocks: { [key: string]: FloorBlock; }
     data: {
         map: Map
     }
@@ -32,12 +31,10 @@ export const state: State = {
         cellSize: 30,
         selectedIndex: null
     },
-    floorBlocks: {
-    },
     data: {
         map: {
             name: 'default',
-            floorBlocks: [],
+            floorBlocks: {},
             capturePoints: {},
             captureFlags: {},
             spawns: {}

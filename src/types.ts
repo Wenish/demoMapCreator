@@ -40,7 +40,7 @@ export type Spawn  = {
 
 export type Map = {
     name: string
-    floorBlocks: FloorBlock[]
+    floorBlocks: { [key: string]: FloorBlock; }
     capturePoints:  { [key: string]: CapturePoint; }
     captureFlags: { [key: string]: CaptureFlag; }
     spawns: { [key: string]: Spawn}

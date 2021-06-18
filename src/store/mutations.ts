@@ -48,7 +48,7 @@ export type Mutations = {
 
 export const mutations: MutationTree<State> & Mutations = {
     [MutationType.ResetState](state, payload) {
-        state.floorBlocks = {}
+        state.data.map.floorBlocks = {}
         state.data.map.name = 'default'
         state.tools.toolSelected = ToolTypes.BLOCKS
         state.tools.floorBlockSelected = FloorBlockTypes.GRASS
@@ -61,21 +61,13 @@ export const mutations: MutationTree<State> & Mutations = {
         state.data.map.captureFlags = payload.map.captureFlags
         state.data.map.capturePoints = payload.map.capturePoints
         state.data.map.spawns = payload.map.spawns
-        const newFloorBlocks = payload.map.floorBlocks.reduce((result: { [key: string]: FloorBlock }, floorBlock) => {
-            const key = `${floorBlock.position.x}${floorBlock.position.y}${floorBlock.position.z}`
-            result[key] = floorBlock;
-            return result;
-        }, {});
-        state.floorBlocks = {
-            ...state.floorBlocks,
-            ...newFloorBlocks
-        }
+        state.data.map.floorBlocks = payload.map.floorBlocks
         state.grid.width = payload.grid.width
         state.grid.height = payload.grid.height
         state.grid.cellSize = payload.grid.cellSize
     },
     [MutationType.FloorBlockSet](state, payload) {
-        state.floorBlocks = payload.reduce((result: { [key: string]: FloorBlock }, floorBlock) => {
+        state.data.map.floorBlocks = payload.reduce((result: { [key: string]: FloorBlock }, floorBlock) => {
             const key = `${floorBlock.position.x}${floorBlock.position.y}${floorBlock.position.z}`
             result[key] = floorBlock;
             return result;
@@ -87,15 +79,15 @@ export const mutations: MutationTree<State> & Mutations = {
             result[key] = floorBlock;
             return result;
         }, {});
-        state.floorBlocks = {
-            ...state.floorBlocks,
+        state.data.map.floorBlocks = {
+            ...state.data.map.floorBlocks,
             ...newFloorBlocks
         }
     },
 
     [MutationType.FloorBlockRemove](state, payload) {
         payload.forEach((value) => {
-            delete state.floorBlocks[value]
+            delete state.data.map.floorBlocks[value]
         })
     },
     [MutationType.SetMapName](state, value) {
