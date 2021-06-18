@@ -48,8 +48,11 @@ export type Mutations = {
 
 export const mutations: MutationTree<State> & Mutations = {
     [MutationType.ResetState](state, payload) {
-        state.data.map.floorBlocks = {}
         state.data.map.name = 'default'
+        state.data.map.floorBlocks = {}
+        state.data.map.captureFlags = {}
+        state.data.map.capturePoints = {}
+        state.data.map.spawns = {}
         state.tools.toolSelected = ToolTypes.BLOCKS
         state.tools.floorBlockSelected = FloorBlockTypes.GRASS
         state.grid.width = 30
