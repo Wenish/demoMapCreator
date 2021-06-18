@@ -180,7 +180,7 @@ export default defineComponent({
 }
 
 .capture-flag {
-  background-image: url(/src/assets/flag.svg);
+  background-image: url(/src/assets/captureFlag.svg);
   background-size: contain;
   pointer-events: none;
 }
