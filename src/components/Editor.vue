@@ -65,7 +65,6 @@ export default defineComponent({
     const gridItemsCount = computed(() => height.value * width.value);
     const gridStyle = computed(() => {
       return {
-        width: `${width.value * gridItemSize.value}px`,
         gridTemplateColumns: `repeat(${width.value}, ${gridItemSize.value}px)`,
         gridTemplateRows: `repeat(${height.value}, ${gridItemSize.value}px)`,
       };
@@ -129,6 +128,8 @@ export default defineComponent({
   grid-template-rows: repeat(3, 1fr);
   margin: auto;
   user-select: none;
+  gap: 1px;
+  background-color: hsl(0deg 0% 11%);
 }
 
 .container.Eraser {
@@ -142,7 +143,6 @@ export default defineComponent({
 .grid-item {
   font-size: 11px;
   background: #bceaff;
-  border: 0.5px solid black;
   overflow: hidden;
   color: black;
 }
