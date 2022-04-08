@@ -130,6 +130,7 @@ export default defineComponent({
   user-select: none;
   gap: 1px;
   background-color: hsl(0deg 0% 11%);
+  border: 1px solid hsl(0deg 0% 11%);
 }
 
 .container.Eraser {
